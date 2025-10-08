@@ -2,7 +2,7 @@ name: Release to Homebrew
 
 on:
   release:
-    types: [released]
+    types: [published]
 
 jobs:
   release:
