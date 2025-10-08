@@ -31,13 +31,13 @@ var (
 	// default aws regions
 	defaultAwsRegions = []string{
 		"af-south-1",
-		"ap-east-1", "ap-northeast-1", "ap-northeast-2", "ap-northeast-3", "ap-south-1", "ap-southeast-2", "ap-southeast-3",
+		"ap-east-1", "ap-northeast-1", "ap-southeast-1", "ap-northeast-2", "ap-northeast-3", "ap-south-1", "ap-south-2", "ap-southeast-2", "ap-southeast-3", "ap-southeast-4",
 		"ca-central-1",
 		"cn-north-1", "cn-northwest-1",
-		"eu-central-1", "eu-north-1", "eu-south-1", "eu-west-1", "eu-west-2", "eu-west-3",
-		"me-south-1",
+		"eu-central-1", "eu-central-2", "eu-north-1", "eu-south-1", "eu-west-1", "eu-west-2", "eu-west-3", "eu-south-2",
+		"me-south-1", "me-central-1",
 		"sa-east-1",
-		"us-east-1", "us-east-2", "us-gov-east-1", "us-gov-west-2", "us-west-1", "us-west-2",
+		"us-east-1", "us-east-2", "us-gov-east-1", "us-gov-west-1", "us-west-1", "us-west-2",
 	}
 )
 
@@ -117,7 +117,7 @@ func AskTarget(ctx context.Context, cfg aws.Config) (*Target, error) {
 	}
 
 	options := make([]string, 0, len(table))
-	for k, _ := range table {
+	for k := range table {
 		options = append(options, k)
 	}
 	sort.Strings(options)
@@ -148,7 +148,7 @@ func AskMultiTarget(ctx context.Context, cfg aws.Config) ([]*Target, error) {
 	}
 
 	options := make([]string, 0, len(table))
-	for k, _ := range table {
+	for k := range table {
 		options = append(options, k)
 	}
 	sort.Strings(options)
@@ -272,8 +272,8 @@ func FindInstanceIdsWithConnectedSSM(ctx context.Context, cfg aws.Config) ([]str
 			return instances
 		}
 	)
-
-	output, err := client.DescribeInstanceInformation(ctx, &ssm.DescribeInstanceInformationInput{MaxResults: maxOutputResults})
+	var maxOutputResultsPtr *int32 = aws.Int32(int32(maxOutputResults))
+	output, err := client.DescribeInstanceInformation(ctx, &ssm.DescribeInstanceInformationInput{MaxResults: maxOutputResultsPtr})
 	if err != nil {
 		return nil, err
 	}
@@ -288,7 +288,7 @@ func FindInstanceIdsWithConnectedSSM(ctx context.Context, cfg aws.Config) ([]str
 			}
 			nextOutput, err := client.DescribeInstanceInformation(ctx, &ssm.DescribeInstanceInformationInput{
 				NextToken:  aws.String(token),
-				MaxResults: maxOutputResults})
+				MaxResults: maxOutputResultsPtr})
 			if err != nil {
 				return nil, err
 			}
@@ -474,11 +474,11 @@ func SendCommand(ctx context.Context, cfg aws.Config, targets []*Target, command
 	input := &ssm.SendCommandInput{
 		DocumentName:   &docName,
 		InstanceIds:    ids,
-		TimeoutSeconds: 60,
+		TimeoutSeconds: aws.Int32(int32(60)),
 		CloudWatchOutputConfig: &ssm_types.CloudWatchOutputConfig{
 			CloudWatchOutputEnabled: true,
 		},
-		Parameters: map[string][]string{"commands": []string{command}},
+		Parameters: map[string][]string{"commands": {command}},
 	}
 
 	return client.SendCommand(ctx, input)

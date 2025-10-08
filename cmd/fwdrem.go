@@ -9,7 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ssm"
 	"github.com/fatih/color"
-	"github.com/gjbae1212/gossm/internal"
+	"github.com/glieske/gossm/internal"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -30,7 +30,7 @@ var (
 			)
 
 			// get target
-			argTarget := strings.TrimSpace(viper.GetString("fwd-target"))
+			argTarget := strings.TrimSpace(viper.GetString("fwdrem-target"))
 			if argTarget != "" {
 				table, err := internal.FindInstances(ctx, *_credential.awsConfig)
 				if err != nil {
@@ -51,8 +51,8 @@ var (
 			}
 
 			// get port
-			argRemotePort := strings.TrimSpace(viper.GetString("fwd-remote-port"))
-			argLocalPort := strings.TrimSpace(viper.GetString("fwd-local-port"))
+			argRemotePort := strings.TrimSpace(viper.GetString("fwdrem-remote-port"))
+			argLocalPort := strings.TrimSpace(viper.GetString("fwdrem-local-port"))
 			if argRemotePort == "" {
 				askPort, err := internal.AskPorts()
 				if err != nil {
@@ -68,7 +68,7 @@ var (
 				}
 			}
 
-			argHost := strings.TrimSpace(viper.GetString("fwd-host"))
+			argHost := strings.TrimSpace(viper.GetString("fwdrem-host"))
 			if argHost == "" {
 				askHost, err := internal.AskHost()
 				if err != nil {
@@ -86,9 +86,9 @@ var (
 			input := &ssm.StartSessionInput{
 				DocumentName: &docName,
 				Parameters: map[string][]string{
-					"portNumber":      []string{remotePort},
-					"localPortNumber": []string{localPort},
-					"host":            []string{host},
+					"portNumber":      {remotePort},
+					"localPortNumber": {localPort},
+					"host":            {host},
 				},
 				Target: aws.String(target.Name),
 			}
@@ -133,10 +133,10 @@ func init() {
 	fwdremCommand.Flags().StringP("host", "a", "", "[optional] it is remote host address to proxy to.")
 
 	// mapping viper
-	viper.BindPFlag("fwd-remote-port", fwdremCommand.Flags().Lookup("remote"))
-	viper.BindPFlag("fwd-local-port", fwdremCommand.Flags().Lookup("local"))
-	viper.BindPFlag("fwd-target", fwdremCommand.Flags().Lookup("target"))
-	viper.BindPFlag("fwd-host", fwdremCommand.Flags().Lookup("host"))
+	viper.BindPFlag("fwdrem-remote-port", fwdremCommand.Flags().Lookup("remote"))
+	viper.BindPFlag("fwdrem-local-port", fwdremCommand.Flags().Lookup("local"))
+	viper.BindPFlag("fwdrem-target", fwdremCommand.Flags().Lookup("target"))
+	viper.BindPFlag("fwdrem-host", fwdremCommand.Flags().Lookup("host"))
 
 	rootCmd.AddCommand(fwdremCommand)
 }

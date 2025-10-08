@@ -1,11 +1,13 @@
-# This is an example goreleaser.yaml file with some sane defaults.
-# Make sure to check the documentation at http://goreleaser.com
-env:
+# GoReleaser v2 config. See https://goreleaser.com/2.0/
+version: 2
+
 before:
   hooks:
     - go mod tidy
+
 builds:
-  - binary: gossm
+  - id: gossm
+    binary: gossm
     env:
       - CGO_ENABLED=0
     goos:
@@ -15,43 +17,37 @@ builds:
     goarch:
       - amd64
       - arm64
-    asmflags:
-      - all=-trimpath={{.Env.GOPATH}}
-    gcflags:
-      - all=-trimpath={{.Env.GOPATH}}
     ldflags:
       - -s -w
-      - -X main.gossmVersion=v1.5.0 # version
+      - -X main.gossmVersion={{.Version}}
     ignore:
       - goos: windows
         goarch: arm64
+
 archives:
-  - replacements:
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      amd64: x86_64
-    format: tar.gz
+  - id: default
+    formats: ['tar.gz', 'zip']
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
     files:
       - LICENSE
       - README.md
+    format_overrides:
+      - goos: darwin
+        formats: ['tar.gz']
+      - goos: linux
+        formats: ['tar.gz']
+      - goos: windows
+        formats: ['tar.gz', 'zip']
+
 changelog:
   sort: asc
   filters:
     exclude:
       - '^docs:'
       - '^test:'
+
 release:
   github:
-    owner: gjbae1212
+    owner: glieske
     name: gossm
-brews:
-  - name: gossm
-    tap:
-      owner: gjbae1212
-      name: homebrew-gossm
-    commit_author:
-      name: gjbae1212
-      email: gjbae1212@gmail.com
-    description: "gossm is interactive CLI tool that you select server in AWS and then could connect or send files your AWS server using start-session, ssh, scp under AWS Systems Manger."
+
