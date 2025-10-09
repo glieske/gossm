@@ -85,4 +85,3 @@ gomod:
     - GOPROXY=https://proxy.golang.org,direct
     - GOSUMDB=sum.golang.org
   mod: mod
-  gobinary: go1.25
