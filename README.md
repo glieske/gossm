@@ -38,7 +38,7 @@ Refer to detail information below.
 ### Homebrew
 ```
 # install
-$ brew tap glieske/homebrew-gossm
+$ brew tap glieske/homebrew-casks
 $ brew install --cask gossm
 
 # upgrade
