@@ -63,5 +63,3 @@ homebrew_casks:
       email: github-actions[bot]@users.noreply.github.com
     commit_msg_template: "Brew cask update for {{ .ProjectName }} version {{ .Tag }}"
     skip_upload: false
-    url:
-      template: "{{ .ArchiveBaseURL }}/{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}.tar.gz"
