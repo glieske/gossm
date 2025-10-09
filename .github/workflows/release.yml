@@ -30,22 +30,23 @@ jobs:
           distribution: goreleaser
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Set git user.name and user.email
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Update Homebrew Tap
-        uses: dawidd6/action-homebrew-bump-formula@v5
-        with:
-          tap: glieske/homebrew-gossm
-          formula: gossm
-          user_name: github-actions[bot]
-          user_email: github-actions[bot]@users.noreply.github.com
-          token: ${{ secrets.HOMEBREW_GITHUB_TOKEN }}
-          no_fork: true
-          livecheck: true
-          force: true
-        env:
           HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.HOMEBREW_GITHUB_TOKEN }}
+      
+      # - name: Set git user.name and user.email
+      #   run: |
+      #     git config --global user.name "github-actions[bot]"
+      #     git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      # - name: Update Homebrew Tap
+      #   uses: dawidd6/action-homebrew-bump-formula@v5
+      #   with:
+      #     tap: glieske/homebrew-gossm
+      #     formula: gossm
+      #     user_name: github-actions[bot]
+      #     user_email: github-actions[bot]@users.noreply.github.com
+      #     token: ${{ secrets.HOMEBREW_GITHUB_TOKEN }}
+      #     no_fork: true
+      #     livecheck: true
+      #     force: true
+      #   env:
+      #     HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.HOMEBREW_GITHUB_TOKEN }}

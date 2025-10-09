@@ -51,3 +51,17 @@ release:
     owner: glieske
     name: gossm
 
+homebrew_casks:
+  - name: gossm
+    repository:
+      owner: glieske
+      name: homebrew-gossm
+      branch: master
+      token: "{{ .Env.HOMEBREW_GITHUB_API_TOKEN }}"
+    commit_author:
+      name: github-actions[bot]
+      email: github-actions[bot]@users.noreply.github.com
+    commit_msg_template: "Brew cask update for {{ .ProjectName }} version {{ .Tag }}"
+    skip_upload: false
+    url:
+      template: "{{ .ArchiveBaseURL }}/{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}.tar.gz"
