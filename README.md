@@ -38,8 +38,8 @@ Refer to detail information below.
 ### Homebrew
 ```
 # install
-$ brew tap glieske/gossm
-$ brew install gossm
+$ brew tap glieske/homebrew-gossm
+$ brew install --cask gossm
 
 # upgrade
 $ brew upgrade gossm
