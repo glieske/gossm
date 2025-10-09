@@ -35,7 +35,31 @@ Refer to detail information below.
 - [optional] It's better to possibly get to additional permission for **ec2:DescribeRegions**
 
 ## Install
+### Manual
+Clone the repository and build the binary using Go:
+
+```bash
+git clone https://github.com/glieske/gossm.git
+cd gossm
+go build -o gossm .
+```
+
+The resulting `gossm` binary will be in the project directory. Move it to a directory in your `$PATH` if desired:
+
+```bash
+mv gossm /usr/local/bin/
+```
+
+### Nix NUR
+```
+in progress
+```
+
+
 ### Homebrew
+Note: At the moment the app is not signed by Apple, so Gatekeeper will show "Unable to verify app" popups.
+
+https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac
 ```
 # install
 $ brew tap glieske/homebrew-casks
