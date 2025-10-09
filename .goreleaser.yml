@@ -63,3 +63,18 @@ homebrew_casks:
       email: github-actions[bot]@users.noreply.github.com
     commit_msg_template: "Brew cask update for {{ .ProjectName }} version {{ .Tag }}"
     skip_upload: false
+
+nix:
+  - name: gossm
+    homepage: "https://github.com/glieske/gossm"
+    description: "Interactive CLI for AWS SSM Session Manager"
+    license: "MIT"
+    repository:
+      owner: glieske
+      name: nix-nur
+      branch: main
+      token: "{{ .Env.NUR_GITHUB_TOKEN }}"
+    commit_author:
+      name: github-actions[bot]
+      email: github-actions[bot]@users.noreply.github.com
+    commit_msg_template: "Nix package update for {{ .ProjectName }} version {{ .Tag }}"
