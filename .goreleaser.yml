@@ -68,7 +68,7 @@ nix:
   - name: gossm
     homepage: "https://github.com/glieske/gossm"
     description: "Interactive CLI for AWS SSM Session Manager"
-    license: "MIT"
+    license: "mit"
     repository:
       owner: glieske
       name: nix-nur
