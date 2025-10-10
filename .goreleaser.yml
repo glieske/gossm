@@ -101,7 +101,7 @@ signs:
 binary_signs:
   - cmd: cosign
     stdin: "{{ .Env.COSIGN_PASSWORD }}"
-    signature: "${artifact}_{{ .Os }}_{{ .Arch }}.cosign.sig"
+    signature: "${artifact}_{{ .Version }}_{{ .Os }}_{{ .Arch }}.cosign.sig"
     args:
       - "sign-blob"
       - "--key=cosign.key"
