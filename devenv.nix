@@ -15,6 +15,7 @@
     pkgs.nil
     pkgs.fzf
     pkgs.zsh
+    pkgs.svu
   ];
 
   # https://devenv.sh/languages/
@@ -40,6 +41,7 @@
   enterShell = ''
     hello         # Run scripts directly
     git --version # Use packages
+    alias do_release='git tag $(svu next) -m "Release $(svu next)" && git push --tags'
   '';
 
   # https://devenv.sh/tasks/
