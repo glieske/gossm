@@ -86,16 +86,19 @@ var (
 			if err != nil {
 				panicRed(err)
 			}
+			// Escape backslash, then single quote for safe shell usage
+			escapedSessJson := strings.ReplaceAll(strings.ReplaceAll(string(sessJson), `\`, `\\`), `'`, `\\'`)
 
 			paramsJson, err := json.Marshal(input)
 			if err != nil {
 				panicRed(err)
 			}
+			escapedParamsJson := strings.ReplaceAll(strings.ReplaceAll(string(paramsJson), `\`, `\\`), `'`, `\\'`)
 
 			// call ssh
 			proxy := fmt.Sprintf("ProxyCommand=%s '%s' %s %s %s '%s'",
-				_credential.ssmPluginPath, string(sessJson), _credential.awsConfig.Region,
-				"StartSession", _credential.awsProfile, string(paramsJson))
+				_credential.ssmPluginPath, escapedSessJson, _credential.awsConfig.Region,
+				"StartSession", _credential.awsProfile, escapedParamsJson)
 			sshArgs := []string{"-o", proxy}
 			for _, sep := range strings.Split(sshCommand, " ") {
 				if sep != "" {
