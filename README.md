@@ -153,6 +153,8 @@ $ gossm mfa <your-mfa-code>
 <p align="center">
 <img src="https://storage.googleapis.com/gjbae1212-asset/gossm/mfa.png" />
 </p>
+
+The code original author: gjbae1212
  
 ## LICENSE
 This project is following The MIT.
