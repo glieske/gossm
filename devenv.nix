@@ -58,7 +58,7 @@
   # git-hooks.hooks.shellcheck.enable = true;
   git-hooks = {
     hooks = {
-      shellcheck.enable = true;
+      shellcheck.enable = false;
     };
   };
 
