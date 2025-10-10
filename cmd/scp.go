@@ -91,10 +91,19 @@ var (
 				panicRed(err)
 			}
 
+			// sanitize shell-embedded JSON strings to escape single quotes and backslashes
+			escapeShell := func(s string) string {
+				s = strings.ReplaceAll(s, `\`, `\\`)
+				return strings.ReplaceAll(s, `'`, `\'`)
+			}
+
+			sessJsonStr := escapeShell(string(sessJson))
+			paramsJsonStr := escapeShell(string(paramsJson))
+
 			// call scp
 			proxy := fmt.Sprintf("ProxyCommand=%s '%s' %s %s %s '%s'",
-				_credential.ssmPluginPath, string(sessJson), _credential.awsConfig.Region,
-				"StartSession", _credential.awsProfile, string(paramsJson))
+				_credential.ssmPluginPath, sessJsonStr, _credential.awsConfig.Region,
+				"StartSession", _credential.awsProfile, paramsJsonStr)
 			sshArgs := []string{"-o", proxy}
 			for _, sep := range strings.Split(scpCommand, " ") {
 				if sep != "" {
