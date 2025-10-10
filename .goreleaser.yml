@@ -88,7 +88,7 @@ gomod:
 
 signs:
   - cmd: cosign
-    certificate: "${artifact}.pem"
+    signature: "${artifact}.sig"
     artifacts: checksum
     args:
       - "sign-blob"
