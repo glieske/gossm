@@ -1,7 +1,8 @@
 name: Vulnerability Checks
 on:
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 22 * * 5'
+  workflow_dispatch:
 env:
   GOVERSION: '1.25'
 permissions:
