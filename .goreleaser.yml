@@ -23,9 +23,6 @@ builds:
     ignore:
       - goos: windows
         goarch: arm64
-    # hooks:
-    #   post:
-    #     - sh -c "COSIGN_PASSWORD=$COSIGN_PASSWORD cosign sign-blob --key cosign.key --yes --output-signature dist/{{ .ProjectName }}_{{ .Version }}_{{ .Target }}.sig {{ .Path }}"
 
 archives:
   - id: default
@@ -34,7 +31,6 @@ archives:
     files:
       - LICENSE
       - README.md
-      - dist/*.sig
     format_overrides:
       - goos: darwin
         formats: ['tar.gz']
@@ -51,8 +47,6 @@ changelog:
       - '^test:'
 
 release:
-  extra_files:
-    - glob: dist/*.sig
   github:
     owner: glieske
     name: gossm
