@@ -8,3 +8,4 @@ test
 coverage.txt
 dist
 gopath
+cosign.key

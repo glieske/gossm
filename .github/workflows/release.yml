@@ -4,12 +4,13 @@ on:
   push:
     tags:
       - 'v*.*.*'
-
+permissions:
+  id-token: write
+  contents: write
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -27,6 +28,12 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - uses: sigstore/cosign-installer@v3.10.0
+
+      - name: Write signing key to disk
+        run: echo "${{ secrets.COSIGN_PRIVATE_KEY }}" > cosign.key
+        shell: bash
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v5
         with:
@@ -34,6 +41,8 @@ jobs:
           args: release --clean
           distribution: goreleaser
         env:
+          COSIGN_EXPERIMENTAL: 1
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.HOMEBREW_GITHUB_TOKEN }}
           NUR_GITHUB_TOKEN: ${{ secrets.NUR_GITHUB_TOKEN }}
