@@ -31,6 +31,7 @@ archives:
     files:
       - LICENSE
       - README.md
+      - cosign.pub
     format_overrides:
       - goos: darwin
         formats: ['tar.gz']
@@ -88,7 +89,8 @@ gomod:
 
 signs:
   - cmd: cosign
-    signature: "${artifact}.sig"
+    signature: "${artifact}.cosign.sig"
+    stdin: "{{ .Env.COSIGN_PASSWORD }}"
     artifacts: checksum
     args:
       - "sign-blob"
