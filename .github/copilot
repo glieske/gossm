@@ -1,0 +1,36 @@
+# Copilot Instructions for gossm
+
+project_name: gossm
+description: |
+  gossm is a command-line tool written in Go for managing AWS SSM (Session Manager) sessions, port forwarding, and related AWS operations. It is designed for secure, efficient, and user-friendly remote access to EC2 instances and other AWS resources.
+
+primary_language: Go
+
+guidelines:
+  - Follow idiomatic Go practices and conventions.
+  - Use the standard library and well-maintained Go modules.
+  - Write clear, concise, and well-documented code.
+  - Ensure all new code is covered by unit tests in *_test.go files.
+  - Use context.Context for all AWS and network operations.
+  - Handle errors explicitly and log meaningful messages.
+  - Avoid hardcoding AWS credentials; use environment variables or IAM roles.
+  - Keep CLI UX simple and consistent with existing commands.
+  - Use Go modules for dependency management (go.mod/go.sum).
+  - Place new commands in the cmd/ directory and internal logic in internal/.
+
+file_structure:
+  - cmd/: CLI commands and entry points.
+  - internal/: Core logic, AWS integrations, and utilities.
+  - scripts/: Deployment and helper scripts.
+  - main.go: Application entry point.
+  - devenv.nix, devenv.yaml: Development environment configuration.
+  - Dockerfile: Containerization support.
+
+testing:
+  - Use Go's testing package for all tests.
+  - Place tests alongside implementation files with *_test.go suffix.
+  - Mock AWS services for unit tests; do not require real AWS access.
+
+documentation:
+  - Update README.md for any new features or changes.
+  - Document all exported functions and types with GoDoc comments.
